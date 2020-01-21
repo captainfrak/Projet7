@@ -1,0 +1,1 @@
+[![CodeFactor](https://www.codefactor.io/repository/github/captainfrak/projet7/badge)](https://www.codefactor.io/repository/github/captainfrak/projet7)
