@@ -14,12 +14,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé")
  * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_ADMIN')"},
  *     normalizationContext={"groups"={"user:read"}},
  *     denormalizationContext={"groups"={"user:write"}},
  *     collectionOperations={},
  *     itemOperations={
  *          "get"={
  *              "method"="GET",
+ *              "security"="is_granted('ROLE_ADMIN')",
  *              "path"="/user/{id}",
  *              "controller"=UserController::class,
  *              "openapi_context"={"summary"="Recupere les infos d'un client grace a son id."}
@@ -32,7 +34,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *               "method"="DELETE",
  *               "openapi_context"={"summary"="Supprime l'utilisateur"}
  *          }
- *      }
+ *     }
  * )
  */
 class User implements UserInterface

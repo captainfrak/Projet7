@@ -25,9 +25,12 @@ class UserController extends AbstractController
     public function __invoke(User $data)
     {
         $client = $this->tokenStorage->getToken()->getUser();
-        if ($data->getClient()->getId() === $client->getId()) {
-            return $this->json($data, 200, [], []);
+        if ($client->getRoles() === ['ROLE_ADMIN']) {
+            if ($data->getClient()->getId() === $client->getId()) {
+                return $this->json($data, 200, [], []);
+            }
+            return new JsonResponse("403: Access Denied");
         }
-        return new JsonResponse("403: Access Denied");
+        return new JsonResponse("403: Access Denied!");
     }
 }

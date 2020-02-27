@@ -26,6 +26,9 @@ class ClientController extends AbstractController
     public function __invoke(UserRepository $data)
     {
         $client = $this->tokenStorage->getToken()->getUser();
-        return $this->json($data->findby(['client' => $client->getId()]), 200, [], []);
+        if ($client->getRoles() === ['ROLE_ADMIN']) {
+            return $this->json($data->findby(['client' => $client->getId()]), 200, [], []);
+        }
+        return new JsonResponse("403: Access Denied");
     }
 }

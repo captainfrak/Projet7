@@ -16,12 +16,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  * @UniqueEntity(fields={"name"}, message="Ce client existe déjà")
  * @ApiResource(
+ *     attributes={"security"="is_granted('ROLE_ADMIN')"},
  *     normalizationContext={"groups"={"client:read"}},
  *     denormalizationContext={"groups"={"client:write"}},
  *     collectionOperations={
  *          "get_publication"={
  *                  "method"="GET",
- *                  "path"="/clients/users",
+ *                  "path"="/client/users",
  *                  "controller"=ClientController::class,
  *                  "openapi_context"={"summary"="Recuperer les users d'un client."}
  *          }

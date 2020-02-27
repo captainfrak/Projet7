@@ -29,7 +29,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          }
  *      },
  *     attributes={
- *          "normalisation_context"={"groups"={"read"}}
+ *          "security"="is_granted('ROLE_USER')",
+ *          "security"="is_granted('ROLE_ADMIN')"
  *     }
  * )
  */
