@@ -1,0 +1,20 @@
+api_platform:
+    title: BileMo API
+    description: Le mobile en B2B
+    show_webby: false
+    enable_swagger_ui: false
+    enable_re_doc: true
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+#    formats:
+#        jsonhal:
+#            mime_types:
+#                -application/hal+json
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        versions: [3]
+        api_keys:
+            apiKey:
+                name: Authorization
+                type: header

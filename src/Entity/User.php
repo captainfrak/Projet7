@@ -2,11 +2,38 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\UserController;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé")
+ * @ApiResource(
+ *     normalizationContext={"groups"={"user:read"}},
+ *     denormalizationContext={"groups"={"user:write"}},
+ *     collectionOperations={},
+ *     itemOperations={
+ *          "get"={
+ *              "method"="GET",
+ *              "path"="/user/{id}",
+ *              "controller"=UserController::class,
+ *              "openapi_context"={"summary"="Recupere les infos d'un client grace a son id."}
+ *          },
+ *          "put"={
+ *               "method"="PUT",
+ *               "openapi_context"={"summary"="Remplace les données de l'utilisateur"}
+ *          },
+ *          "delete"={
+ *               "method"="DELETE",
+ *               "openapi_context"={"summary"="Supprime l'utilisateur"}
+ *          }
+ *      }
+ * )
  */
 class User implements UserInterface
 {
@@ -14,11 +41,15 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     * @Groups({"user:read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"user:read"})
+     * @Assert\NotBlank
+     * @Assert\Email()
      */
     private $email;
 
@@ -30,12 +61,14 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\NotBlank
      */
     private $password;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
+     * @Groups({"user:read"})
      */
     private $client;
 
