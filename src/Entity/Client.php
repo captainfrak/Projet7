@@ -20,11 +20,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     normalizationContext={"groups"={"client:read"}},
  *     denormalizationContext={"groups"={"client:write"}},
  *     collectionOperations={
- *          "get_publication"={
- *                  "method"="GET",
- *                  "path"="/client/users",
- *                  "controller"=ClientController::class,
- *                  "openapi_context"={"summary"="Recuperer les users d'un client."}
+ *          "get_users"={
+ *              "method"="GET",
+ *               "path"="/client/users",
+ *               "controller"=ClientController::class,
+ *               "openapi_context"={"summary"="Recuperer les users d'un client."}
  *          }
  *     },
  *     itemOperations={

@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\UserController;
+use App\Controller\UsersAddController;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -17,7 +18,14 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     attributes={"security"="is_granted('ROLE_ADMIN')"},
  *     normalizationContext={"groups"={"user:read"}},
  *     denormalizationContext={"groups"={"user:write"}},
- *     collectionOperations={},
+ *     collectionOperations={
+ *     "post"={
+ *               "method"="POST",
+ *               "openapi_context"={"summary"="Crée un utilisateur"},
+ *               "path"="/users",
+ *               "controller"=UsersAddController::class
+ *            }
+ *     },
  *     itemOperations={
  *          "get"={
  *              "method"="GET",
@@ -49,8 +57,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user:read"})
-     * @Assert\NotBlank
+     * @Groups({"user:read","user:write"})
      * @Assert\Email()
      */
     private $email;
@@ -63,14 +70,13 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
-     * @Assert\NotBlank
+     * @Groups({"user:write"})
      */
     private $password;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="users")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"user:read"})
      */
     private $client;
 
