@@ -36,6 +36,9 @@ class UsersAddController extends AbstractController
 
         $client = $this->tokenStorage->getToken()->getUser();
 
+        if (!$client) {
+            return new JsonResponse("403: Access Denied");
+        }
         if ($client->getRoles() === ['ROLE_ADMIN']) {
             try {
                 $user = $serializer->deserialize($json, User::class, 'json');

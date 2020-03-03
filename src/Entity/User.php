@@ -36,6 +36,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  *          },
  *          "put"={
  *               "method"="PUT",
+ *               "security"="is_granted('ROLE_ADMIN')",
+ *               "path"="/user/{id}",
  *               "openapi_context"={"summary"="Remplace les données de l'utilisateur"}
  *          },
  *          "delete"={

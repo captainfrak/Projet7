@@ -27,6 +27,10 @@ class UserController extends AbstractController
     public function __invoke(User $data, SerializerInterface $serializer)
     {
         $client = $this->tokenStorage->getToken()->getUser();
+
+        if (!$client) {
+            return new JsonResponse("403: Access Denied");
+        }
         if ($client->getRoles() === ['ROLE_ADMIN']) {
             if ($data->getClient()->getId() === $client->getId()) {
                 return new JsonResponse($serializer->serialize($data, 'jsonld'), 201, [], true);
